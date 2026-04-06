@@ -7,15 +7,14 @@ description: Search, create, and manage notes in the Obsidian vault with wikilin
 
 ## Vault location
 
-`/mnt/d/Obsidian Vault/AI Research/`
+`/Users/mannyfluss/Documents/MannyVault/`
 
-Mostly flat at root level.
+Has some folders (DailyNotes, Journal, TestFolder) but mostly flat at root level.
 
 ## Naming conventions
 
-- **Index notes**: aggregate related topics (e.g., `Ralph Wiggum Index.md`, `Skills Index.md`, `RAG Index.md`)
 - **Title case** for all note names
-- No folders for organization - use links and index notes instead
+- No strict folder structure — use links to organize
 
 ## Linking
 
@@ -29,10 +28,10 @@ Mostly flat at root level.
 
 ```bash
 # Search by filename
-find "/mnt/d/Obsidian Vault/AI Research/" -name "*.md" | grep -i "keyword"
+find "/Users/mannyfluss/Documents/MannyVault/" -name "*.md" | grep -i "keyword"
 
 # Search by content
-grep -rl "keyword" "/mnt/d/Obsidian Vault/AI Research/" --include="*.md"
+grep -rl "keyword" "/Users/mannyfluss/Documents/MannyVault/" --include="*.md"
 ```
 
 Or use Grep/Glob tools directly on the vault path.
@@ -49,11 +48,11 @@ Or use Grep/Glob tools directly on the vault path.
 Search for `[[Note Title]]` across the vault to find backlinks:
 
 ```bash
-grep -rl "\\[\\[Note Title\\]\\]" "/mnt/d/Obsidian Vault/AI Research/"
+grep -rl "\\[\\[Note Title\\]\\]" "/Users/mannyfluss/Documents/MannyVault/"
 ```
 
 ### Find index notes
 
 ```bash
-find "/mnt/d/Obsidian Vault/AI Research/" -name "*Index*"
+find "/Users/mannyfluss/Documents/MannyVault/" -name "*Index*"
 ```
