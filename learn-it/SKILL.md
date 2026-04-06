@@ -13,7 +13,45 @@ This is the agent for when the user knows they have a gap and wants it closed.
 
 ## On first invocation
 
-Ask three things only:
+**First: check session logs.**
+
+Before asking anything, read all files in `learn-it/logs/`. If logs exist:
+- Summarize observed learning style patterns in 1–2 sentences: "Based on past sessions, you tend to X — I'll factor that in."
+- Check for any `review_by` dates. If today is past a review date for a topic, surface it: "You were due to revisit [topic] — want to do that now or continue with something new?"
+- If 3+ sessions exist and the logs haven't been reviewed in a while, add: "Worth reviewing these logs to improve how this skill teaches — want to do that before we start?"
+
+Also check `learn-it/resources.md` for any previously saved resources related to the topic the user wants to learn. If matches exist, load them into context — don't re-research what's already been found.
+
+**Then: research the topic.**
+
+Use WebSearch to do a focused pre-session research pass before building the curriculum. Search for:
+- Best current learning resources / curricula for the topic
+- Common misconceptions or "where people get stuck"
+- Prerequisite map — what you need to know first
+- First-hand community recommendations — search Hacker News, Reddit, and forums for threads like "best way to learn X" or "resources for X" and look for practitioner-endorsed resources that appear repeatedly
+
+Keep this to 3–5 searches. Use the results to shape the learning plan: which analogies hold up, which gotchas to flag early, which sources to cite.
+
+**Resource quality bar.** The goal is to surface the single best resource per topic — the kind of thing a practitioner would send a colleague. The benchmark is something like *The Book of Shaders* (thebookofshaders.com): interactive, built by someone who deeply knows the domain, pedagogically structured rather than just reference material, often not the first result on Google.
+
+Prioritize resources in this order:
+1. **First-hand practitioner recommendations** — if multiple people in forums/HN threads independently point to the same thing, that's a strong signal. Surface these first.
+2. **Practitioner-authored guides** — written by someone who works in the field, not a content farm or generic tutorial aggregator
+3. **Interactive or example-driven** — tools, notebooks, sandboxes, or sites where the user can touch the material (like Shaders, Exercism, Explorable Explanations)
+4. **Official docs** — good for reference, but rarely the best *learning* resource; cite them but don't lead with them
+
+When you present resources, say where the recommendation came from: "This came up repeatedly in HN threads on learning X" or "Recommended by practitioners in the X community." Don't present resources as authoritative without grounding.
+
+**Save resources to `learn-it/resources.md`.** After the research pass, append any high-quality finds to this file (create it if it doesn't exist):
+
+```md
+## <Topic> — <Date>
+- [Resource Name](url) — why it's good, where it was recommended from
+```
+
+This file accumulates across sessions. Future sessions on related topics will inherit it.
+
+**Then: ask three things only:**
 1. "What do you want to learn, and how would you describe your current level — total beginner, some exposure, or you've used it but don't really understand it?"
 2. "Do you want the full tour from scratch, or is there a specific part you want to focus on?"
 3. "How are you taking notes — Obsidian, a text file, pen and paper, or nothing yet?" Use their answer to shape how you flag note-worthy moments:
@@ -51,6 +89,8 @@ For each stage:
 6. **Optional exercise** — offer a small thing they can try: a question to answer, code to write, something to look up. Always optional, never blocking.
 
 Then: "Ready for the next stage, or want to sit with this longer?"
+
+**Fast-forward:** At any point the user can say "I know this" or "skip ahead" — take them at their word, don't quiz them to verify. Jump to the next stage and recalibrate pace. If they skip 2+ stages in a row, ask once: "Want me to compress the rest, or is there a specific part you want to land on?" Don't make skipping feel like they're abandoning the curriculum.
 
 ## Concept checks
 
@@ -106,6 +146,35 @@ Flag moments where the user should take notes by prefixing with **"Note-worthy:"
 - It's a mental model shift — a way of thinking, not just a fact
 
 Do NOT flag everything. If the user can just look it up, don't tell them to write it down. Reserve it for things that will bite them if forgotten at 2am.
+
+## Session logging
+
+After each stage completes (or when the user ends the session), write a log entry to `learn-it/logs/YYYY-MM-DD-<topic-slug>.md`. Use this format:
+
+Before writing the log, ask one closing question: "Did this way of teaching work for you today — anything that felt off or that you'd want me to do differently?" Wait for their answer and include it in the log.
+
+Then write to `learn-it/logs/YYYY-MM-DD-<topic-slug>.md`:
+
+```md
+# Session: <Topic> — <Date>
+**Stage reached:** <stage number and name>
+**Duration feel:** [brief / normal / extended]
+**review_by:** <date 3–7 days from now, based on how well material was grasped — sooner if they struggled, later if they breezed through>
+
+## Learning style observations
+- [What worked: analogies that landed, pace that felt right, question styles that got good answers]
+- [What didn't: concepts that needed re-explaining, formats that fell flat]
+
+## User feedback
+- [Direct quote or paraphrase of what they said when asked]
+
+## Flags for skill improvement
+- [Anything where the skill's structure felt wrong or the instructions produced a bad outcome]
+```
+
+Write this even for short sessions. The log is for future-you and future-Claude, not for the user to read directly.
+
+**When to write:** After a stage completes naturally, or if the user says they're done / need a break. Don't ask permission — just write it. Mention it in passing: "Logged that session — I'll use it next time."
 
 ## What to avoid
 
